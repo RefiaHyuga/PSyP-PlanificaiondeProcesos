@@ -21,11 +21,11 @@ public class Algoritmos {
         np = 5;
         p = new Procesos[np];
 
-        p[0] = new Procesos(0, 0, 5);
-        p[1] = new Procesos(1, 1, 3);
-        p[2] = new Procesos(2, 2, 10);
-        p[3] = new Procesos(3, 3, 1);
-        p[4] = new Procesos(4, 4, 2);
+        p[0] = new Procesos(0, 0, 5, 2);
+        p[1] = new Procesos(1, 1, 3, 1);
+        p[2] = new Procesos(2, 2, 10, 3);
+        p[3] = new Procesos(3, 3, 1, 2);
+        p[4] = new Procesos(4, 4, 2, 1);
     }
 
     public static void fifo() {
@@ -193,5 +193,98 @@ public class Algoritmos {
 
         return p;
     }
+    
+    public static Procesos[] ordenarPrioridad(Procesos[] p) {
+        //Ordenacion por Algoritmo burbuja
+        for (int i = 0; i < np - 1; i++) {
+            for (int j = 0; j < np - 1 - i; j++) {
+                // Si el elemento actual es mayor que el siguiente, se intercambian
+                if (p[j].getPrioridad()> p[j + 1].getPrioridad()) {
+                    // Intercambiar arr[j] y arr[j+1]
+                    Procesos temp = p[j];
+                    p[j] = p[j + 1];
+                    p[j + 1] = temp;
+                }
+            }
+        }
 
+        return p;
+    }
+    
+    public static void prioridad() {
+        setProcesos();
+
+        Logger.log("Algoritmo Prioridad No Apropiativo");
+
+        Procesos paux[] = new Procesos[np];
+        ArrayList<Integer> cola = new ArrayList<Integer>();
+
+        for (int i = 0; i < np; i++) {
+            paux[i] = p[i];//Copiamos P a un Pauxiliar
+            te = te + paux[i].getEjecucion();//Calculo el tiempo final
+        }
+
+        paux = ordenarPrioridad(paux); // Algoritmo ordenarTEjecucion
+
+        for (int i = 0; i < te; i++) {
+            if (cola.isEmpty()) {
+                for (int j = 0; j < np; j++) {
+                    if (paux[j].getLlegada() <= i) {
+                        int e = paux[j].getEjecucion();
+                        for (int k = 0; k < paux[j].getEjecucion(); k++) {
+                            cola.add(paux[j].getId());
+                            //Logger.log(j); Para saber en que momento entran en cola
+                            e--;
+                        }
+                        paux[j].setEjecucion(e);
+                    }
+
+                }
+            }
+
+            if (!cola.isEmpty()) {
+                int proceso = cola.get(0);
+                cola.remove(0);
+                Logger.log("Tiempo --> " + i + "   Proceso--> " + proceso);
+            }
+        }
+    }
+    public static void prioridadApropiativo() {
+        setProcesos();
+
+        Logger.log("Algoritmo Prioridad Apropiativo");
+
+        Procesos paux[] = new Procesos[np];
+        ArrayList<Integer> cola = new ArrayList<Integer>();
+
+        for (int i = 0; i < np; i++) {
+            paux[i] = p[i];//Copiamos P a un Pauxiliar
+            te = te + paux[i].getEjecucion();//Calculo el tiempo final
+        }
+
+        paux = ordenarPrioridad(paux); // Algoritmo ordenarTEjecucion
+
+        for (int i = 0; i < te; i++) {
+            if (cola.isEmpty()) {
+                for (int j = 0; j < np; j++) {
+                    if (paux[j].getLlegada() <= i) {
+                        int e = paux[j].getEjecucion();
+                        if(0 < paux[j].getEjecucion()) {
+                            cola.add(paux[j].getId());
+                            //Logger.log(j); Para saber en que momento entran en cola
+                            e--;
+                        }
+                        paux[j].setEjecucion(e);
+                    }
+
+                }
+            }
+
+            if (!cola.isEmpty()) {
+                int proceso = cola.get(0);
+                cola.remove(0);
+                Logger.log("Tiempo --> " + i + "   Proceso--> " + proceso);
+            }
+        }
+    }
 }

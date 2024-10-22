@@ -20,6 +20,8 @@ public class Main {
             Algoritmos.sjf();
             Algoritmos.srtf();
             Algoritmos.roundrobin(2);
+            Algoritmos.prioridad();
+            Algoritmos.prioridadApropiativo();
         }
         finally {
             Logger.close();

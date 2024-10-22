@@ -16,11 +16,21 @@ public class Procesos {
     private int llegada;
     private int ejecucion;
     private int id;
+    private int prioridad;
 
-    public Procesos(int id, int llegada, int ejecucion) {
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    public Procesos(int id, int llegada, int ejecucion, int prioridad) {
         this.id = id;
         this.llegada = llegada;
         this.ejecucion = ejecucion;
+        this.prioridad = prioridad;
     }
 
     public int getLlegada() {
